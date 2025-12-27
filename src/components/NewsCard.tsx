@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { ArrowRight, ImageOff } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Post } from '../features/news/newsApi';
 import { useAppSelector } from '../app/hooks';
+import { ImageWithFallback } from './ImageWithFallback';
 import styles from './NewsCard.module.css';
 
 interface NewsCardProps {
@@ -23,26 +23,18 @@ const translations = {
 
 export const NewsCard = ({ post, authorName }: NewsCardProps) => {
     const lang = useAppSelector((state) => state.language.lang);
-    const [imageError, setImageError] = useState(false);
 
     const t = translations[lang];
 
     return (
         <article className={styles.card}>
             <div className={styles.imageContainer}>
-                {imageError ? (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
-                        <ImageOff size={48} />
-                    </div>
-                ) : (
-                    <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className={styles.image}
-                        onError={() => setImageError(true)}
-                        loading="lazy"
-                    />
-                )}
+                <ImageWithFallback
+                    src={post.imageUrl}
+                    alt={post.title}
+                    className={styles.image}
+                    containerClassName={styles.imageContainer}
+                />
             </div>
             <div className={styles.content}>
                 <h2 className={styles.title}>{post.title}</h2>

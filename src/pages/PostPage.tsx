@@ -4,6 +4,8 @@ import { useGetPostQuery, useGetUserQuery } from '../features/news/newsApi';
 import { useAppSelector } from '../app/hooks';
 import { Layout } from '../layouts/Layout';
 
+import { ImageWithFallback } from '../components/ImageWithFallback';
+
 export const PostPage = () => {
     const { id } = useParams<{ id: string }>();
     const lang = useAppSelector((state) => state.language.lang);
@@ -48,7 +50,7 @@ export const PostPage = () => {
                 </Link>
 
                 <article className="fade-in">
-                    <img
+                    <ImageWithFallback
                         src={post.imageUrl}
                         alt={post.title}
                         style={{
